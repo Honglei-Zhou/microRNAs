@@ -49,25 +49,7 @@ mir.gene <- c(
   'hsa-mir-503',
   'hsa-mir-424',
   'hsa-mir-646',
-  'hsa-mir-6838',
-  'hsa-mir-34a',
-  'hsa-mir-34b',
-  'hsa-mir-34c',
-  'hsa-mir-17',
-  'hsa-mir-20a',
-  'hsa-mir-20b',
-  'hsa-mir-106a',
-  'hsa-mir-106b',
-  'hsa-mir-93',
-  'hsa-mir-18a',
-  'hsa-mir-18b',
-  'hsa-mir-19a',
-  'hsa-mir-19b-1',
-  'hsa-mir-19b-2',
-  'hsa-mir-92a-1',
-  'hsa-mir-92a-2',
-  'hsa-mir-25',
-  'hsa-mir-363'
+  'hsa-mir-6838'
   )
 mature.mir <- c(
   'hsa-miR-103a-3p', 
@@ -81,25 +63,7 @@ mature.mir <- c(
   'hsa-miR-503-5p',
   'hsa-miR-424-5p',
   'hsa-miR-646',
-  'hsa-miR-6838-5p',
-  'hsa-miR-34a-5p',
-  'hsa-miR-34b-5p',
-  'hsa-miR-34c-5p',
-  'hsa-miR-17-5p',
-  'hsa-miR-20a-5p',
-  'hsa-miR-20b-5p',
-  'hsa-miR-106a-5p',
-  'hsa-miR-106b-5p',
-  'hsa-miR-93-5p',
-  'hsa-miR-18a-5p',
-  'hsa-miR-18b-5p',
-  'hsa-miR-19a-3p',
-  'hsa-miR-19b-3p',
-  'hsa-miR-19b-3p',
-  'hsa-miR-92a-3p',
-  'hsa-miR-92a-3p',
-  'hsa-miR-25-3p',
-  'hsa-miR-363-3p')
+  'hsa-miR-6838-5p')
 
 mir.table <- data.frame(`miRNA`=mir.gene, `mature_miRNA`=mature.mir)
 
@@ -135,15 +99,8 @@ data3 <- as.data.frame(data3)
 
 
 mir.15 <- c('hsa-mir-103a-1','hsa-mir-103a-2','hsa-mir-15a','hsa-mir-15b','hsa-mir-107','hsa-mir-16-1','hsa-mir-195','hsa-mir-497','hsa-mir-503','hsa-mir-424','hsa-mir-646','hsa-mir-6838')
-mir.34 <- c('hsa-mir-34a','hsa-mir-34b','hsa-mir-34c')
-mir.17 <- c('hsa-mir-17','hsa-mir-20a','hsa-mir-20b','hsa-mir-106a','hsa-mir-106b','hsa-mir-93')
-mir.18 <- c('hsa-mir-18a','hsa-mir-18b')
-mir.19 <- c('hsa-mir-19a','hsa-mir-19b-1','hsa-mir-19b-2')
-mir.92 <- c('hsa-mir-92a-1','hsa-mir-92a-2','hsa-mir-25','hsa-mir-363')
 
-
-covariates <- c(mir.15,mir.34,mir.17,mir.18,mir.19,mir.92)
-# covariates <- c(mir.15)
+covariates <- c(mir.15)
 
 mirna.df.sub <- data3[covariates,]
 
@@ -249,8 +206,6 @@ covariates <- unique(mir.table[which(mir.table$miRNA %in% mir.15),]$miRNA_ID)
 
 my_df <- my_data[,c(covariates, c('OS','_PATIENT','OS_time','TCGA_ID','Sample_type'))]
 
-# my_df <- my_df[which(my_df$Sample_type != 'Solid Tissue Normal'),]
-# my_df <- my_df[which(my_df$Sample_type == 'Primary Tumor'),]
 
 data <- NULL
 
@@ -268,8 +223,7 @@ for(sample in unique(pheno.df$TCGA_ID)){
     data <- rbind(data,tmp)
   }
 }
-# data <- my_df[,covariates]
-# data <- melt(data)
+
 png(paste('output/miR15/TCGA.all',".only.primary.tumor.miR15Family.boxplot.png", sep=""),height=5000, width=7000, res=400)
 p <- ggplot(data, aes(x=variable, y=value, color=variable, fill=variable)) + 
   geom_boxplot() +
@@ -346,10 +300,6 @@ for(sample in unique(top.genes.mir15$TCGA_ID)){
   tmp.normal$Sample_type <- 'N'
   tmp.tumor$Sample_type <- 'T'
 
-  # tmp.normal$Sample_type <- paste0(sample, '_N')
-  # tmp.tumor$Sample_type <- paste0(sample, '_T')
-
-  # comparisons[[sample]] <- c(paste0(sample, '_T'), paste0(sample, '_N'))
   comparisons[[sample]] <-  list()
   # print(comparisons)
 
@@ -381,9 +331,6 @@ for(sample in unique(top.genes.mir15$TCGA_ID)){
   }
 
 }
-
-# fig_data <- data[which(data$TCGA_ID == 'TCGA_BRCA'),]
-# png(paste('output/miR15/TCGA.all',".primary.tumor.vs.normal.miR15Family.boxplot.png", sep=""),height=5000, width=20000, res=400)
 
 my_plots_data <- c()
 widths <- c()
@@ -452,14 +399,8 @@ dev.off()
 #-------------------------miRNA----------
 
 mir.15 <- c('hsa-mir-103a-1','hsa-mir-103a-2','hsa-mir-15a','hsa-mir-15b','hsa-mir-107','hsa-mir-16-1','hsa-mir-195','hsa-mir-497','hsa-mir-503','hsa-mir-424')
-mir.34 <- c('hsa-mir-34a','hsa-mir-34b','hsa-mir-34c')
-mir.17 <- c('hsa-mir-17','hsa-mir-20a','hsa-mir-20b','hsa-mir-106a','hsa-mir-106b','hsa-mir-93')
-mir.18 <- c('hsa-mir-18a','hsa-mir-18b')
-mir.19 <- c('hsa-mir-19a','hsa-mir-19b-1','hsa-mir-19b-2')
-mir.92 <- c('hsa-mir-92a-1','hsa-mir-92a-2','hsa-mir-25','hsa-mir-363')
 
-covariates <- c(mir.15,mir.34,mir.17,mir.18,mir.19,mir.92)
-# covariates <- c(mir.15)
+covariates <- c(mir.15)
 
 mirna.df.sub <- mirna.df[covariates,]
 
@@ -651,14 +592,9 @@ write.csv(result_mirna, 'output/miR15/TCGA.miR15Family.multivariates.mature.HR.c
 #-------------------------miRNA----------
 
 mir.15 <- c('hsa-mir-103a-1','hsa-mir-103a-2','hsa-mir-15a','hsa-mir-15b','hsa-mir-107','hsa-mir-16-1','hsa-mir-195','hsa-mir-497','hsa-mir-503','hsa-mir-424','hsa-mir-646','hsa-mir-6838')
-mir.34 <- c('hsa-mir-34a','hsa-mir-34b','hsa-mir-34c')
-mir.17 <- c('hsa-mir-17','hsa-mir-20a','hsa-mir-20b','hsa-mir-106a','hsa-mir-106b','hsa-mir-93')
-mir.18 <- c('hsa-mir-18a','hsa-mir-18b')
-mir.19 <- c('hsa-mir-19a','hsa-mir-19b-1','hsa-mir-19b-2')
-mir.92 <- c('hsa-mir-92a-1','hsa-mir-92a-2','hsa-mir-25','hsa-mir-363')
 
-covariates <- c(mir.15,mir.34,mir.17,mir.18,mir.19,mir.92)
-# covariates <- c(mir.15)
+
+covariates <- c(mir.15)
 
 mirna.df.sub <- mirna.df[covariates,]
 
@@ -815,14 +751,6 @@ for(sample in unique(my_data$TCGA_ID)){
                             expr_gene <- as.data.frame(expr_gene)
     tmp<-c(file_name, expr_gene[1,2],expr_gene[2,2],total, nevent, beta, HR, HR.confint.lower, HR.confint.upper, HR.confint, wald.test, p.value, sample)
                           # 
-    # if(p.value < 0.05){
-    #   file_name <- rownames(x$conf.int)[1]
-    #   file_name <- str_split(file_name, 'l')[[1]][1]
-    #   png(paste(output, '/TCGA.', sample,'.', file_name,'.miR15Family.univariate.HR.png', sep=""), height=4000, width=6000, res=400)
-    #   p <- ggforest(fit.coxph, data = my_df.sub)
-    #   print(p)
-    #   dev.off()
-    # }
 
     names(tmp)<-c("Symbol",levels(expr_gene[1,1])[expr_gene[1,1]],levels(expr_gene[2,1])[expr_gene[2,1]],"Total", "Event", "beta", "HR", "HR_low", "HR_high","HR (95% CI for HR)", "wald.test", 
                   "p.value", "TCGA_ID")
@@ -874,18 +802,6 @@ for(sample in unique(my_data$TCGA_ID)){
     tmp$Symbol <- unlist(lapply(tmp$Symbol, function(x){
         return(str_replace_all(x, '_', '-'))
         }))
-
-
-    # write.csv(tmp, paste0(output, '/TCGA.', sample,'.miRNA.HR.csv'))
-
-    # tmp_sig <- tmp[which(tmp$p.value < 0.05),]
-
-    # if(dim(tmp_sig)[1] > 0){
-    #   tmp_sig$logFC <- 0
-    #   tmp_sig$logFC <- top.genes[match(tmp_sig$Symbol, rownames(top.genes)),]$logFC
-
-    #   write.csv(tmp_sig, paste0(output, '/TCGA.', sample,'.miRNA.sig.HR.csv'))    
-    # }
 
 
     if (is.null(result_mirna_all)){
@@ -2570,15 +2486,6 @@ for(sample in unique(pheno.df$TCGA_ID)){
     if(!is.null(roc.data.multi)){
       roc.data <- rbind(roc.data ,roc.data.multi)
     }
-    # png(paste('output/miR15/TCGA.',sample,".primary.tumor.vs.normal.ROC.sig.v2.png", sep=""),height=4000, width=4000, res=800)
-    # p <- ggplot(roc.data[which(roc.data$col == 'Average'),],aes(x=1-spec,y=sens,color=AUC)) + 
-    # # p <- ggplot(roc.data[which(roc.data$auc > 0.8 & roc.data$col == 'Average'),],aes(x=1-spec,y=sens,color=AUC)) + 
-    #       geom_line() +
-    #       labs(x="1-Specificity",y="Sensitivity",title=paste0(sample, ' ROC Curve'),colour="AUC") + 
-    #       # labs(x="Recall",y="Precision",title='ROC Curve',colour="AUC") + 
-    #       theme(legend.position=c(0.6,0.5),legend.direction = "vertical", plot.title = element_text(hjust = 0.5, size = 14))
-    # print(p)
-    # dev.off()
 
     if(is.null(roc.data.all)){
       roc.data.all <- roc.data
